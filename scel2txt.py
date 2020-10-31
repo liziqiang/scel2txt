@@ -24,7 +24,8 @@
 import struct
 import os
 import sys
-
+import json
+import urllib.request
 
 def read_utf16_str(f, offset=-1, len=2):
     if offset >= 0:
@@ -120,13 +121,24 @@ def save(records, f):
     f.write("\n".join(records_translated))
     return records_translated
 
+def downloadDict():
+    with open("config.json") as config:
+        list = json.load(config)
+        for conf in list:
+            url = conf.get("url")
+            name = conf.get("name")
+            print("下载词库：%s" % name)
+            f = urllib.request.urlopen(url + "&name=" + urllib.parse.quote(name))
+            with open("scel/%s.scel" % name, "wb") as scel:
+                scel.write(f.read())
 
 def main():
+    downloadDict()
     # 将要转换的词库添加在 scel 目录下
     scel_files = list(filter(lambda x: x.endswith('.scel'), [
         i for i in os.listdir("./scel")]))
-
-    dict_file = "luna_pinyin.sogou.dict.yaml"
+    file_name = sys.argv[1] if len(sys.argv) > 1 else "sougou"
+    dict_file = "luna_pinyin.%s.dict.yaml" % file_name
     dict_file_content = []
     dict_file_header = """# Rime dictionary
 # encoding: utf-8
@@ -141,7 +153,7 @@ def main():
 #
 
 ---
-name: luna_pinyin.sogou
+name: luna_pinyin.%s
 version: "1.0"
 sort: by_weight
 use_preset_vocabulary: true
@@ -149,7 +161,7 @@ use_preset_vocabulary: true
     """
     sougo_dict_name_list = list(
         map(lambda x: "# * %s" % x.replace(".scel", ""), scel_files))
-    dict_file_content.append(dict_file_header % "\n".join(sougo_dict_name_list))
+    dict_file_content.append(dict_file_header % ("\n".join(sougo_dict_name_list), file_name))
 
     for scel_file in scel_files:
         records = get_words_from_sogou_cell_dict(
