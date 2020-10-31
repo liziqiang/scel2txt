@@ -158,7 +158,7 @@ version: "1.0"
 sort: by_weight
 use_preset_vocabulary: true
 ...
-    """
+"""
     sougo_dict_name_list = list(
         map(lambda x: "# * %s" % x.replace(".scel", ""), scel_files))
     dict_file_content.append(dict_file_header % ("\n".join(sougo_dict_name_list), file_name))
