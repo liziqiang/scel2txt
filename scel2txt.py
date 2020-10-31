@@ -144,10 +144,10 @@ def main():
 # encoding: utf-8
 #
 # Sogou Pinyin Dict - 搜狗细胞词库
-#   
+#
 #   https://pinyin.sogou.com/dict/
 #
-# 包括: 
+# 包括:
 #
 %s
 #
