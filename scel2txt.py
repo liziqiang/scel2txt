@@ -156,7 +156,7 @@ def main():
 name: luna_pinyin.%s
 version: "1.0"
 sort: by_weight
-use_preset_vocabulary: true
+use_preset_vocabulary: false
 ...
 """
     sougo_dict_name_list = list(
