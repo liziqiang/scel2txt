@@ -4,7 +4,7 @@
 
 ## 使用
 
-根据config.josn，从[搜狗官方词库网站](https://pinyin.sogou.com/dict/)下载的 `*.scel` 文件放入 `scel` 文件夹，然后运行
+运行下面命令会根据config.josn，从[搜狗官方词库网站](https://pinyin.sogou.com/dict/)自动下载的 `*.scel` 文件放入 `scel` 文件夹
 
 ```shell
 python3 scel2txt.py abc
