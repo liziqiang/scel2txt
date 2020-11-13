@@ -4,10 +4,11 @@
 
 ## 使用
 
-将从[搜狗官方词库网站](https://pinyin.sogou.com/dict/)下载的 `*.scel` 文件放入 `scel` 文件夹，然后运行
+根据config.josn，从[搜狗官方词库网站](https://pinyin.sogou.com/dict/)下载的 `*.scel` 文件放入 `scel` 文件夹，然后运行
 
 ```shell
-python3 scel2txt.py
+python3 scel2txt.py abc
+# 生产luna_pinyin.abc.dict.yaml文件，不传默认luna_pinyin.sogou.dict.yaml
 ```
 
 ## 生成的文件
