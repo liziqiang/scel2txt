@@ -26,6 +26,7 @@ import os
 import sys
 import json
 import urllib.request
+import datetime
 
 def read_utf16_str(f, offset=-1, len=2):
     if offset >= 0:
@@ -135,17 +136,13 @@ def downloadDict():
 def main():
     dict_file_header = """# Rime dictionary
 # encoding: utf-8
-#
-# Sogou Pinyin Dict - 搜狗细胞词库 - %s
-#
-#   %s
-#
+# Source: %s
 
 ---
 name: luna_pinyin.%s
-version: "1.0"
+version: "%s"
 sort: by_weight
-use_preset_vocabulary: true
+use_preset_vocabulary: false
 ...
 """
     with open("config.json") as config:
@@ -161,7 +158,7 @@ use_preset_vocabulary: true
                 scel.write(f.read())
             dict_file = "luna_pinyin.%s.dict.yaml" % dictName
             dict_file_content = []
-            dict_file_content.append(dict_file_header % (name, url, dictName))
+            dict_file_content.append(dict_file_header % (url, dictName, datetime.datetime.now().strftime("%Y.%m.%d")))
             records = get_words_from_sogou_cell_dict(os.path.join("./scel", scel_file))
             print("%s: %s 个词" % (scel_file, len(records)))
             with open(os.path.join("./out", scel_file.replace(".scel", ".txt")), "w") as fout:
