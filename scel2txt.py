@@ -125,12 +125,13 @@ def downloadDict():
     with open("config.json") as config:
         list = json.load(config)
         for conf in list:
-            url = conf.get("url")
-            name = conf.get("name")
-            print("下载词库：%s" % name)
-            f = urllib.request.urlopen(url + "&name=" + urllib.parse.quote(name))
-            with open("scel/%s.scel" % name, "wb") as scel:
-                scel.write(f.read())
+            if not conf.get('skip'):
+                url = conf.get("url")
+                name = conf.get("name")
+                print("下载词库：%s" % name)
+                f = urllib.request.urlopen(url + "&name=" + urllib.parse.quote(name))
+                with open("scel/%s.scel" % name, "wb") as scel:
+                    scel.write(f.read())
 
 def main():
     downloadDict()
