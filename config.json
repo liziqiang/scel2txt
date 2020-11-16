@@ -2,16 +2,19 @@
     {
         "url": "https://pinyin.sogou.com/d/dict/download_cell.php?id=4&f=detail",
         "name": "网络流行新词",
+        "dictName": "popular",
         "skip": false
     },
     {
         "url": "https://pinyin.sogou.com/d/dict/download_cell.php?id=482&f=detail",
         "name": "行政地区",
+        "dictName": "place",
         "skip": true
     },
     {
         "url": "https://pinyin.sogou.com/d/dict/download_cell.php?id=15209&f=detail",
         "name": "明星",
+        "dictName": "mingxing",
         "skip": true
     }
 ]
