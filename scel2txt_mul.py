@@ -122,17 +122,6 @@ def save(records, f):
     f.write("\n".join(records_translated))
     return records_translated
 
-def downloadDict():
-    with open("config.json") as config:
-        list = json.load(config)
-        for conf in list:
-            url = conf.get("url")
-            name = conf.get("name")
-            print("下载词库：%s" % name)
-            f = urllib.request.urlopen(url + "&name=" + urllib.parse.quote(name))
-            with open("scel/%s.scel" % name, "wb") as scel:
-                scel.write(f.read())
-
 def main():
     dict_file_header = """# Rime dictionary
 # encoding: utf-8
@@ -148,24 +137,25 @@ use_preset_vocabulary: false
     with open("config.json") as config:
         list = json.load(config)
         for conf in list:
-            url = conf.get("url")
-            name = conf.get("name")
-            dictName = conf.get("dictName")
-            print("下载词库：%s" % name)
-            f = urllib.request.urlopen(url + "&name=" + urllib.parse.quote(name))
-            scel_file = "%s.scel" % name
-            with open("scel/%s.scel" % name, "wb") as scel:
-                scel.write(f.read())
-            dict_file = "luna_pinyin.%s.dict.yaml" % dictName
-            dict_file_content = []
-            dict_file_content.append(dict_file_header % (url, dictName, datetime.datetime.now().strftime("%Y.%m.%d")))
-            records = get_words_from_sogou_cell_dict(os.path.join("./scel", scel_file))
-            print("%s: %s 个词" % (scel_file, len(records)))
-            with open(os.path.join("./out", scel_file.replace(".scel", ".txt")), "w") as fout:
-                dict_file_content.extend(save(records, fout))
-            with open(os.path.join("./out", dict_file), "w") as dictfout:
-                dictfout.write("\n".join(dict_file_content))
-            print("-"*80)
+            if not conf.get("skip"):
+                url = conf.get("url")
+                name = conf.get("name")
+                dictName = conf.get("dictName")
+                print("下载词库：%s" % name)
+                f = urllib.request.urlopen(url + "&name=" + urllib.parse.quote(name))
+                scel_file = "%s.scel" % name
+                with open("scel/%s.scel" % name, "wb") as scel:
+                    scel.write(f.read())
+                dict_file = "luna_pinyin.%s.dict.yaml" % dictName
+                dict_file_content = []
+                dict_file_content.append(dict_file_header % (url, dictName, datetime.datetime.now().strftime("%Y.%m.%d")))
+                records = get_words_from_sogou_cell_dict(os.path.join("./scel", scel_file))
+                print("%s: %s 个词" % (scel_file, len(records)))
+                with open(os.path.join("./out", scel_file.replace(".scel", ".txt")), "w") as fout:
+                    dict_file_content.extend(save(records, fout))
+                with open(os.path.join("./out", dict_file), "w") as dictfout:
+                    dictfout.write("\n".join(dict_file_content))
+                print("-"*80)
 
 if __name__ == "__main__":
     main()
